@@ -1,3 +1,4 @@
 *.idea
 *.iml
 bieti-agent/target/
+bieti-server/target/

@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/demo")
 public class LoginController {
 
+
     @Resource
     private JChannel channel;
 
     @RequestMapping("/login")
     public String displayLogin(HttpServletRequest request) {
-
         return "login";
     }
 

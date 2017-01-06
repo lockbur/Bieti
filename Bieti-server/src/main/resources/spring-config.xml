@@ -10,4 +10,6 @@
     <bean id="channel" class="com.lockbur.bieti.server.spring.JGroupsChannelFactoryBean">
         <property name="clusterName" value="bietiDeploy"></property>
     </bean>
+
+    <import resource="spring/spring-datasource.xml"></import>
 </beans>

@@ -1,13 +1,13 @@
-package com.lockbur.bieti.server.mapper;
+package com.lockbur.bieti.server.service;
 
 import com.lockbur.bieti.server.domain.Project;
 
 import java.util.List;
 
 /**
- * Created by wangkun23 on 2017/1/6.
+ * Created by wangkun23 on 2017/1/9.
  */
-public interface ProjectMapper {
+public interface ProjectService {
 
     /***
      * @param project

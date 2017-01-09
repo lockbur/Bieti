@@ -15,4 +15,11 @@
         )
     </insert>
 
+    <select id="findAll" resultType="com.lockbur.bieti.server.domain.Project">
+        SELECT
+         id,name,command,created_by,created_time,modified_time
+        FROM
+        tb_project
+    </select>
+
 </mapper>

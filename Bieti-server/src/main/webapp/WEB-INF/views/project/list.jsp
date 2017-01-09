@@ -1,4 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <!-- Head -->
@@ -51,17 +52,63 @@
             <!-- /Page Header -->
             <!-- Page Body -->
             <div class="page-body">
+                <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                        <div class="well with-header with-footer">
+                            <div class="header bg-blueberry">
+                                项目管理列表
+                            </div>
+                            <table class="table table-bordered table-striped table-condensed flip-content">
+                                <thead class="flip-content bordered-palegreen">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>项目名称</th>
+                                    <th>指令</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach items="${list}" var="item">
+                                    <tr>
+                                        <td>${item.id}</td>
+                                        <td>${item.name}</td>
+                                        <td>${item.command}</td>
+                                        <td>
+                                            <div class="buttons-preview">
+                                                <a data-provider="deploy" class="btn btn-info">部署</a>
+                                                <a data-provider="start" class="btn btn-success">启动</a>
+                                                <a data-provider="restart" class="btn btn-warning">重启</a>
+                                                <a data-provider="stop" class="btn btn-danger">停止</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
 
-
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <!-- /Page Body -->
+
         </div>
-        <!-- /Page Content -->
+        <!-- /Page Body -->
     </div>
-    <!-- /Page Container -->
-    <!-- Main Container -->
+    <!-- /Page Content -->
+</div>
+<!-- /Page Container -->
+<!-- Main Container -->
 </div>
 <%@include file="/WEB-INF/views/common/footer.jsp" %>
+<script>
+    $(document).ready(function () {
+        //执行部署指令
+        $("[data-provider='deploy']").click(function () {
+
+        });
+
+    });//JQ END
+</script>
 </body>
 <!--  /Body -->
 </html>

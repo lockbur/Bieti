@@ -7,6 +7,12 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
+    <context:annotation-config/>
+
+    <context:component-scan base-package="com.lockbur.bieti.server">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+    </context:component-scan>
+
     <bean id="channel" class="com.lockbur.bieti.server.spring.JGroupsChannelFactoryBean">
         <property name="clusterName" value="bietiDeploy"></property>
     </bean>

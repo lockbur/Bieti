@@ -12,42 +12,23 @@
     <ul class="nav sidebar-menu">
         <!--Dashboard-->
         <li>
-            <a href="index.html">
+            <a>
                 <i class="menu-icon glyphicon glyphicon-home"></i>
-                <span class="menu-text"> Dashboard </span>
-            </a>
-        </li>
-        <!--Databoxes-->
-        <li>
-            <a href="databoxes.html">
-                <i class="menu-icon glyphicon glyphicon-tasks"></i>
-                <span class="menu-text"> Data Boxes </span>
-            </a>
-        </li>
-        <!--Widgets-->
-        <li>
-            <a href="widgets.html">
-                <i class="menu-icon fa fa-th"></i>
-                <span class="menu-text"> Widgets </span>
+                <span class="menu-text"> 控制面板 </span>
             </a>
         </li>
         <!--UI Elements-->
         <li>
             <a href="#" class="menu-dropdown">
                 <i class="menu-icon fa fa-desktop"></i>
-                <span class="menu-text"> Elements </span>
+                <span class="menu-text"> 项目管理 </span>
 
                 <i class="menu-expand"></i>
             </a>
             <ul class="submenu">
                 <li>
-                    <a href="elements.html">
-                        <span class="menu-text">Basic Elements</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="tabs.html">
-                        <span class="menu-text">Tabs & Accordions</span>
+                    <a href="${pageContext.request.contextPath}/project/list">
+                        <span class="menu-text">项目列表</span>
                     </a>
                 </li>
             </ul>

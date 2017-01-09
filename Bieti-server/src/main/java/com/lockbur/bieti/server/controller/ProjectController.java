@@ -2,14 +2,15 @@ package com.lockbur.bieti.server.controller;
 
 
 import com.lockbur.bieti.server.domain.Project;
-import com.lockbur.bieti.server.mapper.ProjectMapper;
+import com.lockbur.bieti.server.service.ProjectService;
 import org.jgroups.JChannel;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @author Administrator
@@ -19,12 +20,13 @@ import javax.servlet.http.HttpServletRequest;
 public class ProjectController {
 
     @Resource
-    private ProjectMapper projectMapper;
+    private ProjectService projectService;
 
 
     @RequestMapping("/list")
-    public String list() {
-
+    public String list(Model model) {
+        List<Project> list = projectService.findAll();
+        model.addAttribute("list", list);
         return "project/list";
     }
 

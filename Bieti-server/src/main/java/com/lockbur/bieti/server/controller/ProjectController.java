@@ -22,6 +22,13 @@ public class ProjectController {
     private ProjectMapper projectMapper;
 
 
+    @RequestMapping("/list")
+    public String list() {
+
+        return "project/list";
+    }
+
+
     @RequestMapping("/edit/{id}")
     public String displayEdit(@PathVariable("id") Integer id) {
 

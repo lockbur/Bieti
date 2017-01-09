@@ -15,7 +15,10 @@
  */
 package com.lockbur.bieti.agent.spring;
 
+import org.jgroups.Address;
 import org.jgroups.JChannel;
+import org.jgroups.PhysicalAddress;
+import org.jgroups.stack.IpAddress;
 import org.springframework.beans.factory.config.AbstractFactoryBean;
 import org.springframework.util.Assert;
 
@@ -28,9 +31,10 @@ public class JGroupsChannelFactoryBean extends AbstractFactoryBean<JChannel> {
 
         Assert.hasText(clusterName, "JGroups cluster name is null or empty");
 
-        JChannel channel = new JChannel();
-        channel.connect(clusterName);
+        Address address=new IpAddress("127.0.0.1",51634);
 
+        JChannel channel = new JChannel();
+        channel.connect(clusterName,address,6000);
         return channel;
 
     }

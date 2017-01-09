@@ -17,11 +17,17 @@ public class ProjectServiceImpl implements ProjectService {
     @Resource
     private ProjectMapper projectMapper;
 
-
     @Override
     public int insert(Project project) {
         return projectMapper.insert(project);
     }
+
+
+    @Override
+    public Project findById(Integer id) {
+        return projectMapper.findById(id);
+    }
+
 
     @Override
     public List<Project> findAll() {

@@ -17,4 +17,6 @@ public interface ProjectMapper {
 
 
     public List<Project> findAll();
+
+    public Project findById(Integer id);
 }

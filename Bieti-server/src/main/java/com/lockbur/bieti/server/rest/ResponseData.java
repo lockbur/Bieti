@@ -22,12 +22,12 @@ public class ResponseData implements Serializable {
     /**
      * 消息code
      */
-    private String code;
+    private String code="0";
 
     /**
      * 错误提示
      */
-    private String error;
+    private String error="";
 
     /**
      * 结果数据
@@ -35,6 +35,7 @@ public class ResponseData implements Serializable {
      * 如果返回简单的键值对用addData
      */
     private Object data;
+
     private Map<String, Object> dataShadow;
 
     public ResponseData() {

@@ -5,7 +5,7 @@ package com.lockbur.bieti.server.service;
  */
 public interface CommandService {
 
-    public void deploy();
+    public void deploy(Integer projectId) throws Exception;
 
     public void start();
 

@@ -1,5 +1,6 @@
 package com.lockbur.bieti.agent.jgroups;
 
+import com.lockbur.bieti.common.jgroups.CommandMessage;
 import org.apache.commons.exec.*;
 import org.jgroups.Message;
 import org.jgroups.ReceiverAdapter;
@@ -22,7 +23,10 @@ public class CommandReceiverAdapter extends ReceiverAdapter {
 
     @Override
     public void receive(Message msg) {
-        logger.info("received msg from {} : {}", msg.getSrc(), msg.getObject());
+
+        CommandMessage cmdMessage = (CommandMessage) msg.getObject();
+        logger.info("received msg from {} : {}", msg.getSrc(), cmdMessage.getCommand());
+
 
         //解释执行shell脚本
         CommandLine cmdLine = new CommandLine("ipconfig");

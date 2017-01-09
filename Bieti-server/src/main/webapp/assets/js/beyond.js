@@ -258,45 +258,6 @@ function Notify(message, position, timeout, theme, icon, closable) {
 
 /*#region handle Settings*/
 function InitiateSettings() {
-    if (readCookie("navbar-fixed-top") != null) {
-        if (readCookie("navbar-fixed-top") == "true") {
-            $('#checkbox_fixednavbar').prop('checked', true);
-            $('.navbar').addClass('navbar-fixed-top');
-        }
-    }
-
-    if (readCookie("sidebar-fixed") != null) {
-        if (readCookie("sidebar-fixed") == "true") {
-            $('#checkbox_fixedsidebar').prop('checked', true);
-            $('.page-sidebar').addClass('sidebar-fixed');
-
-            //Slim Scrolling for Sidebar Menu in fix state
-            if (!$(".page-sidebar").hasClass("menu-compact")) {
-                var position = (readCookie("rtl-support") || location.pathname == "index-rtl-fa.html" || location.pathname == "index-rtl-ar.html") ? 'right' : 'left';
-                $('.sidebar-menu').slimscroll({
-                    height: $(window).height() - 90,
-                    position: position,
-                    size: '3px',
-                    color: themeprimary
-                });
-            }
-        }
-
-    }
-    if (readCookie("breadcrumbs-fixed") != null) {
-        if (readCookie("breadcrumbs-fixed") == "true") {
-            $('#checkbox_fixedbreadcrumbs').prop('checked', true);
-            $('.page-breadcrumbs').addClass('breadcrumbs-fixed');
-        }
-    }
-    if (readCookie("page-header-fixed") != null) {
-        if (readCookie("page-header-fixed") == "true") {
-            $('#checkbox_fixedheader').prop('checked', true);
-            $('.page-header').addClass('page-header-fixed');
-        }
-    }
-
-
     $('#checkbox_fixednavbar')
         .change(function () {
             $('.navbar')
@@ -465,45 +426,10 @@ $('.page-chatbar .chatbar-messages .back').on('click', function (e) {
     $('.page-chatbar .chatbar-contacts').show();
     $('.page-chatbar .chatbar-messages').hide();
 });
-var position = (readCookie("rtl-support") || location.pathname == "index-rtl-fa.html" || location.pathname == "index-rtl-ar.html") ? 'right' : 'left';
 var additionalHeight = 0;
 if ($(window).width() < 531)
     additionalHeight = 45;
-$('.chatbar-messages .messages-list').slimscroll({
-    position: position,
-    size: '4px',
-    color: themeprimary,
-    height: $(window).height() - (250 + additionalHeight),
-});
-$('.chatbar-contacts .contacts-list').slimscroll({
-    position: position,
-    size: '4px',
-    color: themeprimary,
-    height: $(window).height() - (86 + additionalHeight),
-});
 //End Chat
-
-/*#region Get Colors*/
-//Get colors from a string base on theme colors
-function getcolor(colorString) {
-    switch (colorString) {
-        case ("themeprimary"):
-            return themeprimary;
-        case ("themesecondary"):
-            return themesecondary;
-        case ("themethirdcolor"):
-            return themethirdcolor;
-        case ("themefourthcolor"):
-            return themefourthcolor;
-        case ("themefifthcolor"):
-            return themefifthcolor;
-        default:
-            return colorString;
-    }
-}
-/*#endregion Get Colors*/
-
-
 //Switch Classes Function
 function switchClasses(firstClass, secondClass) {
 

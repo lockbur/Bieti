@@ -22,4 +22,16 @@
         tb_project
     </select>
 
+
+    <select id="findById" resultType="com.lockbur.bieti.server.domain.Project">
+        SELECT
+        id,name,command,created_by,created_time,modified_time
+        FROM
+        tb_project
+        WHERE
+        id=#{id}
+        LIMIT 1
+    </select>
+
+
 </mapper>

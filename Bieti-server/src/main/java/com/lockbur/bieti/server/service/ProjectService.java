@@ -15,6 +15,7 @@ public interface ProjectService {
      */
     public int insert(Project project);
 
+    public Project findById(Integer id);
 
     public List<Project> findAll();
 }

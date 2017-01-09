@@ -75,10 +75,13 @@
                                         <td>${item.command}</td>
                                         <td>
                                             <div class="buttons-preview">
-                                                <a data-provider="deploy" class="btn btn-info">部署</a>
-                                                <a data-provider="start" class="btn btn-success">启动</a>
-                                                <a data-provider="restart" class="btn btn-warning">重启</a>
-                                                <a data-provider="stop" class="btn btn-danger">停止</a>
+                                                <a data-provider="deploy" data-id="${item.id}"
+                                                   class="btn btn-info">部署</a>
+                                                <a data-provider="start" data-id="${item.id}"
+                                                   class="btn btn-success">启动</a>
+                                                <a data-provider="restart" data-id="${item.id}" class="btn btn-warning">重启</a>
+                                                <a data-provider="stop" data-id="${item.id}"
+                                                   class="btn btn-danger">停止</a>
                                             </div>
                                         </td>
                                     </tr>
@@ -100,11 +103,21 @@
 <!-- Main Container -->
 </div>
 <%@include file="/WEB-INF/views/common/footer.jsp" %>
+
+<!--Page Related Scripts-->
+<script src="${pageContext.request.contextPath}/assets/js/bootbox/bootbox.js"></script>
 <script>
     $(document).ready(function () {
         //执行部署指令
         $("[data-provider='deploy']").click(function () {
-
+            var _id = $(this).data("id");
+            $.post("/command/deploy", {"id": _id}, function (result) {
+                bootbox.confirm("部署提交成功", function (bootReult) {
+                    if (bootReult) {
+                        //
+                    }
+                });//bootbox
+            }, "json");
         });
 
     });//JQ END

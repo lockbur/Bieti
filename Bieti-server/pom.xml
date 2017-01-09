@@ -22,6 +22,12 @@
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.lockbur.bieti</groupId>
+            <artifactId>bieti-common</artifactId>
+        </dependency>
+
         <!-- logs -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -89,17 +95,17 @@
             <artifactId>jgroups</artifactId>
         </dependency>
 
+        <!--jackson-->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.3.3</version>
         </dependency>
-
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-core-asl</artifactId>
+            <version>1.9.11</version>
         </dependency>
-
 
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -112,6 +118,18 @@
             <artifactId>javaee-web-api</artifactId>
             <version>7.0</version>
             <scope>provided</scope>
+        </dependency>
+
+        <!--Test-->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
         </dependency>
 
     </dependencies>

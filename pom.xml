@@ -34,6 +34,7 @@
     </repositories>
 
     <modules>
+        <module>bieti-common</module>
         <module>bieti-agent</module>
         <module>bieti-server</module>
     </modules>
@@ -47,6 +48,13 @@
 
     <dependencyManagement>
         <dependencies>
+
+            <dependency>
+                <groupId>com.lockbur.bieti</groupId>
+                <artifactId>bieti-common</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+
 
             <dependency>
                 <groupId>org.slf4j</groupId>

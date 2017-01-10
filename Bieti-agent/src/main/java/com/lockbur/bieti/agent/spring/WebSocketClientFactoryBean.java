@@ -25,7 +25,7 @@ public class WebSocketClientFactoryBean extends AbstractFactoryBean<WebSocketCli
         try {
             client.start();
 
-            URI echoUri = new URI(serverUrl);
+            URI echoUri = new URI(serverUrl+"?uid=12344555");
             ClientUpgradeRequest request = new ClientUpgradeRequest();
 
             client.connect(commandHandlerSocket, echoUri, request);

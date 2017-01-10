@@ -2,10 +2,7 @@ package com.lockbur.bieti.agent.websocket;
 
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.StatusCode;
-import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
-import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
-import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
-import org.eclipse.jetty.websocket.api.annotations.WebSocket;
+import org.eclipse.jetty.websocket.api.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,7 +50,7 @@ public class CommandHandlerSocket {
             fut = session.getRemote().sendStringByFuture("Thanks for the conversation.");
             fut.get(2, TimeUnit.SECONDS); // wait for send to complete.
 
-            session.close(StatusCode.NORMAL, "I'm done");
+            //session.close(StatusCode.NORMAL, "I'm done");
         } catch (Throwable t) {
             t.printStackTrace();
         }
@@ -63,4 +60,5 @@ public class CommandHandlerSocket {
     public void onMessage(String msg) {
         logger.info("Got msg: {}", msg);
     }
+
 }

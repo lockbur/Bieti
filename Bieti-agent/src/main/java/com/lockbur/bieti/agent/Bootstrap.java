@@ -1,14 +1,13 @@
 package com.lockbur.bieti.agent;
 
-import com.lockbur.bieti.agent.jgroups.CommandReceiverAdapter;
-import org.jgroups.Address;
-import org.jgroups.JChannel;
-import org.jgroups.stack.IpAddress;
+import com.lockbur.bieti.agent.websocket.CommandHandlerSocket;
+import org.eclipse.jetty.websocket.client.WebSocketClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
+import java.io.IOException;
 import java.net.UnknownHostException;
 
 /**
@@ -19,23 +18,13 @@ public class Bootstrap {
 
     private static final Logger logger = LoggerFactory.getLogger(Bootstrap.class);
 
-    public static void main(String[] args) throws InterruptedException, UnknownHostException {
+    public static void main(String[] args) throws InterruptedException, IOException {
 
 
         AbstractApplicationContext cxt = new FileSystemXmlApplicationContext("classpath:spring-config.xml");
 
 
-        JChannel channel = (JChannel) cxt.getBean("channel");
-
-        Address serverAddress = new IpAddress("127.0.0.1", 10008);
-
-        String serverName = channel.getName(serverAddress);
-
-        logger.info("serverName {}.", serverName);
-
-
-        channel.setReceiver(new CommandReceiverAdapter());
-
+        WebSocketClient webSocketClient = (WebSocketClient) cxt.getBean("webSocketClient");
 
         final Thread monitor = new StopMonitor(9527);
         monitor.start();

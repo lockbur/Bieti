@@ -7,7 +7,7 @@ import com.lockbur.bieti.server.service.ProjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.jgroups.JChannel;
+//import org.jgroups.JChannel;
 
 import javax.annotation.Resource;
 
@@ -19,8 +19,8 @@ public class CommandServiceImpl implements CommandService {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Resource
-    private JChannel channel;
+    //@Resource
+    //private JChannel channel;
 
     @Resource
     private ProjectService projectService;
@@ -32,7 +32,7 @@ public class CommandServiceImpl implements CommandService {
 
             CommandMessage message = new CommandMessage();
             message.setCommand("bin/startup.sh");
-            channel.send(null, message);
+            //channel.send(null, message);
 
         } else {
             logger.error("project not exist id {}", projectId);

@@ -18,7 +18,11 @@
         </property>
     </bean>
 
-    <bean id="channel" class="com.lockbur.bieti.agent.spring.JGroupsChannelFactoryBean">
-        <property name="clusterName" value="bietiDeploy"></property>
+
+    <bean id="commandHandlerSocket" class="com.lockbur.bieti.agent.websocket.CommandHandlerSocket"/>
+
+    <bean id="webSocketClient" class="com.lockbur.bieti.agent.spring.WebSocketClientFactoryBean">
+        <property name="serverUrl" value="ws://127.0.0.1:8080/websocket"></property>
+        <property name="commandHandlerSocket" ref="commandHandlerSocket"></property>
     </bean>
 </beans>

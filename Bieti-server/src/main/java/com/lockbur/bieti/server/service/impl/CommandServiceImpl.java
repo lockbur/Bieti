@@ -1,8 +1,10 @@
 package com.lockbur.bieti.server.service.impl;
 
 import com.lockbur.bieti.common.jgroups.CommandMessage;
+import com.lockbur.bieti.server.domain.Application;
 import com.lockbur.bieti.server.domain.Project;
 import com.lockbur.bieti.server.manager.AgentManager;
+import com.lockbur.bieti.server.service.ApplicationService;
 import com.lockbur.bieti.server.service.CommandService;
 import com.lockbur.bieti.server.service.ProjectService;
 import com.lockbur.bieti.server.websocket.WebSocketHandler;
@@ -32,18 +34,22 @@ public class CommandServiceImpl implements CommandService {
     @Resource
     private ProjectService projectService;
 
-    public void deploy(Integer projectId) throws Exception {
+    @Resource
+    private ApplicationService applicationService;
+
+    public void deploy(Integer deployJobId) throws Exception {
         logger.info("app deploy");
-        Project project = projectService.findById(projectId);
-        if (project != null) {
+
+        Application app = applicationService.findById(1);
+        if (app != null) {
 
             CommandMessage message = new CommandMessage();
             message.setCommand("bin/startup.sh");
             //channel.send(null, message);
             //webSocketHandler.sendMessage("dd","测试消息");
-            agentManager.broadcast("测试消息");
+            agentManager.broadcast(app.getCommand());
         } else {
-            logger.error("project not exist id {}", projectId);
+            logger.error("Application not exist id {}", deployJobId);
         }
     }
 

@@ -3,7 +3,6 @@ package com.lockbur.bieti.server.controller;
 
 import com.lockbur.bieti.server.domain.Project;
 import com.lockbur.bieti.server.service.ProjectService;
-import org.jgroups.JChannel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;

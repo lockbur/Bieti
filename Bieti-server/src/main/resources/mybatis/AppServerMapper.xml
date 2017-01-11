@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lockbur.bieti.server.mapper.AppServerMapper">
+
+    <insert id="insert" parameterType="com.lockbur.bieti.server.domain.AppServer" useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO tb_app_server
+        (
+          address,hostname,osName,created_by,created_time,modified_time
+        )
+        VALUES
+        (
+          #{address},#{hostname},#{osName},1,now(),now()
+        )
+
+    </insert>
+
+    <select id="findAll" resultType="com.lockbur.bieti.server.domain.AppServer">
+        SELECT
+         id,address,hostname,osName,created_by,created_time,modified_time
+        FROM
+        tb_app_server
+    </select>
+
+</mapper>

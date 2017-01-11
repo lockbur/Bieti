@@ -30,7 +30,9 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
         agentManager.addAgent(session);
 
-        logger.info("uid connect {}", session.getHandshakeHeaders().get("uid"));
+
+
+        logger.info("getHostString connect {}",session.getRemoteAddress().getHostString());
         logger.info("getRemoteAddress connect {}", session.getRemoteAddress());
         logger.info("websocket connect {}", session.getId());
     }

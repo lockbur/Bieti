@@ -27,4 +27,9 @@ public class InstanceServiceImpl implements InstanceService {
     public List<Instance> findByAppServerId(Integer appServerId) {
         return instanceMapper.findByAppServerId(appServerId);
     }
+
+    @Override
+    public Instance findById(Integer id) {
+        return instanceMapper.findById(id);
+    }
 }

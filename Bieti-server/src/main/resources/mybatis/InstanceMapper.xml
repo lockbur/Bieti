@@ -7,21 +7,31 @@
             keyProperty="id">
         INSERT INTO tb_instance
         (
-           app_server_id,address,hostname,path,created_by,created_time,modified_time
+           name,app_server_id,address,hostname,path,created_by,created_time,modified_time
         )
         VALUES
         (
-          #{appServerId},#{address},#{hostname},#{path},1,now(),now()
+         #{name}, #{appServerId},#{address},#{hostname},#{path},1,now(),now()
         )
     </insert>
 
     <select id="findByAppServerId" resultType="com.lockbur.bieti.server.domain.Instance">
         SELECT
-        id,app_server_id,address,hostname,path,created_by,created_time,modified_time
+        id,name,app_server_id,address,hostname,path,created_by,created_time,modified_time
         FROM
         tb_instance
         WHERE
         app_server_id=#{appServerId}
+    </select>
+
+    <select id="findById" resultType="com.lockbur.bieti.server.domain.Instance">
+        SELECT
+        id,name,app_server_id,address,hostname,path,created_by,created_time,modified_time
+        FROM
+        tb_instance
+        WHERE
+        id=#{id}
+        LIMIT 1
     </select>
 
 

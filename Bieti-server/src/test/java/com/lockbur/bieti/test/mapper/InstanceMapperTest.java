@@ -24,6 +24,7 @@ public class InstanceMapperTest extends TestBase {
     public void insert() {
         Instance instance = new Instance();
         instance.setAppServerId(1);
+        instance.setName("server1");
         instance.setAddress("127.0.0.1");
         instance.setHostname("localhost");
         instance.setPath("/export/App/server2");

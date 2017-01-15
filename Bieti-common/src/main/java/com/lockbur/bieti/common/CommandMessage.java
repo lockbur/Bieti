@@ -1,4 +1,4 @@
-package com.lockbur.bieti.common.jgroups;
+package com.lockbur.bieti.common;
 
 import java.io.Serializable;
 
@@ -7,7 +7,9 @@ import java.io.Serializable;
  */
 public class CommandMessage implements Serializable {
 
+    private Integer id;
     private String type;
+    private String instance;//server1 or server2
     private String command;
 
     public String getType() {
@@ -24,5 +26,21 @@ public class CommandMessage implements Serializable {
 
     public void setCommand(String command) {
         this.command = command;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getInstance() {
+        return instance;
+    }
+
+    public void setInstance(String instance) {
+        this.instance = instance;
     }
 }

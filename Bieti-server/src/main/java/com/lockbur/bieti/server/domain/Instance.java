@@ -10,7 +10,7 @@ import java.util.Date;
 public class Instance implements Serializable {
 
     private Integer id;
-
+    private String name;
     private Integer appServerId;//所属应用的ID
 
     private String address;//ip地址
@@ -26,6 +26,14 @@ public class Instance implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Integer getAppServerId() {

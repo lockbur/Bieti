@@ -1,7 +1,9 @@
 package com.lockbur.bieti.agent.websocket;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lockbur.bieti.agent.command.CommandManager;
 import com.lockbur.bieti.agent.jgroups.CollectingLogOutputStream;
+import com.lockbur.bieti.common.CommandMessage;
 import org.apache.commons.exec.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,11 +35,15 @@ public class AgentWebSocketHandler implements WebSocketHandler {
     @Override
     public void handleMessage(WebSocketSession webSocketSession, WebSocketMessage<?> webSocketMessage) throws Exception {
         logger.info("webSocketMessageClient {}", webSocketMessage.getPayload());
-        commandManager.processCommand(webSocketSession, webSocketMessage);
+
+
+        ObjectMapper mapper = new ObjectMapper();
+        CommandMessage message = mapper.readValue(webSocketMessage.getPayload().toString(), CommandMessage.class);
+        //commandManager.processCommand(webSocketSession, webSocketMessage);
 
         //http://blog.csdn.net/fd_mas/article/details/50147701
         try {
-            File dir = new File("/export/App/server1/bin");
+            File dir = new File("/export/App/"+message.getInstance()+"/bin");
 
             DefaultExecutor executor = new DefaultExecutor();
             executor.setWorkingDirectory(dir);
@@ -58,7 +64,9 @@ public class AgentWebSocketHandler implements WebSocketHandler {
             executor.execute(commandline, resultHandler);
 
             logger.info("commandline execute success .");
-            //resultHandler.waitFor();
+            resultHandler.waitFor();
+
+            logger.info("commandli{}" ,resultHandler.getException());
         } catch (Exception e) {
             logger.error("commandline execute failed {}.", e);
         }

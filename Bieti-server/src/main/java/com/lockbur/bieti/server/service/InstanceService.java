@@ -13,4 +13,6 @@ public interface InstanceService {
     public int insert(Instance instance);
 
     public List<Instance> findByAppServerId(Integer appServerId);
+
+    public Instance findById(Integer id);
 }

@@ -1,13 +1,14 @@
 package com.lockbur.bieti.server.service.impl;
 
-import com.lockbur.bieti.common.jgroups.CommandMessage;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lockbur.bieti.common.CommandMessage;
 import com.lockbur.bieti.server.domain.Application;
-import com.lockbur.bieti.server.domain.Project;
+import com.lockbur.bieti.server.domain.Instance;
 import com.lockbur.bieti.server.manager.AgentManager;
 import com.lockbur.bieti.server.service.ApplicationService;
 import com.lockbur.bieti.server.service.CommandService;
+import com.lockbur.bieti.server.service.InstanceService;
 import com.lockbur.bieti.server.service.ProjectService;
-import com.lockbur.bieti.server.websocket.WebSocketHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,24 +33,32 @@ public class CommandServiceImpl implements CommandService {
     private AgentManager agentManager;
 
     @Resource
-    private ProjectService projectService;
+    private InstanceService instanceService;
 
     @Resource
     private ApplicationService applicationService;
 
-    public void deploy(Integer deployJobId) throws Exception {
+    public void deploy(Integer instanceId) throws Exception {
         logger.info("app deploy");
 
-        Application app = applicationService.findById(1);
-        if (app != null) {
+        Instance instance = instanceService.findById(instanceId);
 
-            CommandMessage message = new CommandMessage();
-            message.setCommand("bin/startup.sh");
+        if (instance != null) {
+
             //channel.send(null, message);
             //webSocketHandler.sendMessage("dd","测试消息");
-            agentManager.broadcast(app.getCommand());
+            CommandMessage command = new CommandMessage();
+            command.setId(instanceId);
+            command.setType("APPWORKER");
+            command.setInstance(instance.getName());
+            command.setCommand("start.bat");
+
+            ObjectMapper mapper = new ObjectMapper();
+            String message = mapper.writeValueAsString(command);
+
+            agentManager.broadcast(message);
         } else {
-            logger.error("Application not exist id {}", deployJobId);
+            logger.error("Application not exist id {}", instanceId);
         }
     }
 

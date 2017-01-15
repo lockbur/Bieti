@@ -1,6 +1,7 @@
 package com.lockbur.bieti.server.mapper;
 
 import com.lockbur.bieti.server.domain.Instance;
+import com.lockbur.bieti.server.domain.Project;
 
 import java.util.List;
 
@@ -18,4 +19,5 @@ public interface InstanceMapper {
 
     public List<Instance> findByAppServerId(Integer appServerId);
 
+    public Instance findById(Integer id);
 }

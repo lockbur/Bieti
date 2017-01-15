@@ -1,6 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <!-- Head -->
@@ -57,47 +56,49 @@
                     <div class="col-xs-12 col-md-12">
                         <div class="widget radius-bordered">
                             <div class="widget-header">
-                                <span class="widget-caption">我的上线任务</span>
-                                <div class="widget-buttons buttons-bordered">
-                                    <button class="btn btn-success btn-xs"><i class="fa fa-plus"></i>创建新任务</button>
-                                </div>
-                                <div class="widget-buttons buttons-bordered">
-                                    <button class="btn btn-info btn-xs"><i class="fa fa-refresh"></i>刷新</button>
-                                </div>
+                                <span class="widget-caption">应用实例列表</span>
                             </div>
                             <div class="widget-body">
 
                                 <table class="table table-bordered table-striped table-condensed flip-content">
                                     <thead class="flip-content bordered-palegreen">
                                     <tr>
-
-                                        <th>编号</th>
-                                        <th>任务名称</th>
-                                        <th>应用名称</th>
-                                        <th>创建时间</th>
-                                        <th>部署时间</th>
-                                        <th>状态</th>
+                                        <td>
+                                            <label>
+                                                <input type="checkbox">
+                                                <span class="text"></span>
+                                            </label>
+                                        </td>
+                                        <th>ID</th>
+                                        <th>IP地址</th>
+                                        <th>主机名称</th>
+                                        <th>操作系统</th>
                                         <th>操作</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <c:forEach items="${list}" var="item">
                                         <tr>
+                                            <td>
+                                                <label>
+                                                    <input type="checkbox" name="instances" value="${item.id}">
+                                                    <span class="text"></span>
+                                                </label>
+                                            </td>
                                             <td>${item.id}</td>
-                                            <td>${item.name}</td>
-                                            <td>${item.appId}</td>
-                                            <td>
-                                                <fmt:formatDate value="${item.createdTime}" pattern="yyyy-MM-dd HH:mm"/>
-                                            </td>
-                                            <td>
-                                                <fmt:formatDate value="${item.deployTime}" pattern="yyyy-MM-dd HH:mm"/>
-                                            </td>
-                                            <td>正常</td>
+                                            <td>${item.address}</td>
+                                            <td>${item.hostname}</td>
+                                            <td>${item.path}</td>
                                             <td>
                                                 <div class="buttons-preview">
-                                                    <a href="/instance/list/${item.appId}" class="btn btn-info">
-                                                        部署程序
-                                                    </a>
+                                                    <a data-provider="deploy" data-id="${item.id}"
+                                                       class="btn btn-info">部署</a>
+                                                    <a data-provider="start" data-id="${item.id}"
+                                                       class="btn btn-success">启动</a>
+                                                    <a data-provider="restart" data-id="${item.id}"
+                                                       class="btn btn-warning">重启</a>
+                                                    <a data-provider="stop" data-id="${item.id}"
+                                                       class="btn btn-danger">停止</a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -125,6 +126,17 @@
 <script src="${pageContext.request.contextPath}/assets/js/bootbox/bootbox.js"></script>
 <script>
     $(document).ready(function () {
+        //执行部署指令
+        $("[data-provider='deploy']").click(function () {
+            var _id = $(this).data("id");
+            $.post("/command/deploy", {"id": _id}, function (result) {
+                bootbox.confirm("部署提交成功", function (bootReult) {
+                    if (bootReult) {
+                        //
+                    }
+                });//bootbox
+            }, "json");
+        });
 
     });//JQ END
 </script>

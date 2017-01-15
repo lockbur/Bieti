@@ -112,3 +112,16 @@ CREATE TABLE `tb_deploy_job` (
   `modified_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '本记录最后修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='上线任务计划';
+
+
+CREATE TABLE `tb_instance` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `app_server_id` bigint(20) NOT NULL COMMENT '应用ID',
+  `address` varchar(20) NOT NULL COMMENT '服务器地址',
+  `hostname` varchar(50) DEFAULT NULL COMMENT '主机名称',
+  `path` varchar(32) NOT NULL COMMENT '实例路径',
+  `created_by` varchar(32) NOT NULL COMMENT '操作者的账号',
+  `created_time` datetime NOT NULL COMMENT '创建时间',
+  `modified_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '本记录最后修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='应用实例';

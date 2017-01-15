@@ -1,68 +1,65 @@
 package com.lockbur.bieti.agent.spring;
 
-import com.lockbur.bieti.agent.websocket.CommandHandlerSocket;
-import org.eclipse.jetty.websocket.client.ClientUpgradeRequest;
-import org.eclipse.jetty.websocket.client.WebSocketClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.AbstractFactoryBean;
 import org.springframework.util.Assert;
+import org.springframework.web.socket.WebSocketHandler;
+import org.springframework.web.socket.client.standard.StandardWebSocketClient;
+import org.springframework.web.socket.sockjs.client.SockJsClient;
+import org.springframework.web.socket.sockjs.client.Transport;
+import org.springframework.web.socket.sockjs.client.WebSocketTransport;
 
-import java.net.URI;
+import java.util.Collections;
+import java.util.List;
 
-public class WebSocketClientFactoryBean extends AbstractFactoryBean<WebSocketClient> {
+public class WebSocketClientFactoryBean extends AbstractFactoryBean<SockJsClient> {
+    final Logger logger = LoggerFactory.getLogger(WebSocketClientFactoryBean.class);
 
     private String serverUrl;
-
-    private CommandHandlerSocket commandHandlerSocket;
+    private WebSocketHandler webSocketHandler;
 
     @Override
-    public WebSocketClient createInstance() throws Exception {
+    public SockJsClient createInstance() throws Exception {
+
+        logger.info("sockjs server is: {}", serverUrl);
 
         Assert.hasText(serverUrl, "serverUrl is null or empty");
-        Assert.notNull(commandHandlerSocket, "commandHandlerSocket  is null or empty");
 
-        WebSocketClient client = new WebSocketClient();
+        Assert.notNull(webSocketHandler, "webSocketHandler is null or empty");
+
+        Transport webSocketTransport = new WebSocketTransport(new StandardWebSocketClient());
+        List<Transport> transports = Collections.singletonList(webSocketTransport);
+
+        SockJsClient sockJsClient = new SockJsClient(transports);
 
         try {
-            client.start();
-
-            URI echoUri = new URI(serverUrl+"?uid=12344555");
-            ClientUpgradeRequest request = new ClientUpgradeRequest();
-
-            client.connect(commandHandlerSocket, echoUri, request);
-            System.out.printf("Connecting to : %s%n", echoUri);
-
-            // wait for closed socket connection.
-            //socket.awaitClose(5, TimeUnit.SECONDS);
-            System.out.println("Connection closed!");
+            sockJsClient.doHandshake(webSocketHandler, serverUrl);
+            sockJsClient.start();
         } catch (Throwable t) {
             t.printStackTrace();
         } finally {
-            try {
-                //client.stop();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            sockJsClient.stop();
         }
-        return client;
+        return sockJsClient;
 
     }
 
     @Override
     public Class<?> getObjectType() {
-        return WebSocketClient.class;
+        return SockJsClient.class;
+    }
+
+    @Override
+    protected void destroyInstance(SockJsClient instance) throws Exception {
+        instance.stop();
     }
 
     public void setServerUrl(String serverUrl) {
         this.serverUrl = serverUrl;
     }
 
-    public void setCommandHandlerSocket(CommandHandlerSocket commandHandlerSocket) {
-        this.commandHandlerSocket = commandHandlerSocket;
+    public void setWebSocketHandler(WebSocketHandler webSocketHandler) {
+        this.webSocketHandler = webSocketHandler;
     }
-
-    @Override
-    protected void destroyInstance(WebSocketClient instance) throws Exception {
-        //instance.c
-    }
-
 }

@@ -1,17 +1,13 @@
 package com.lockbur.bieti.agent;
 
-import com.lockbur.bieti.agent.websocket.CommandHandlerSocket;
-import org.eclipse.jetty.websocket.client.WebSocketClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
-
+import org.springframework.web.socket.sockjs.client.SockJsClient;
 import java.io.IOException;
-import java.net.UnknownHostException;
-
 /**
- * 聊天服务器端程序 启动
+ * 自动部署系统Agent端程序 启动
  * Created by wangkun23 on 2016/7/25.
  */
 public class Bootstrap {
@@ -20,11 +16,9 @@ public class Bootstrap {
 
     public static void main(String[] args) throws InterruptedException, IOException {
 
-
         AbstractApplicationContext cxt = new FileSystemXmlApplicationContext("classpath:spring-config.xml");
 
-
-        WebSocketClient webSocketClient = (WebSocketClient) cxt.getBean("webSocketClient");
+        SockJsClient webSocketClient = (SockJsClient) cxt.getBean("sockJsClient");
 
         final Thread monitor = new StopMonitor(9527);
         monitor.start();

@@ -18,11 +18,12 @@
         </property>
     </bean>
 
+    <bean id="collectingLogOutputStream" class="com.lockbur.bieti.agent.jgroups.CollectingLogOutputStream"/>
 
-    <bean id="commandHandlerSocket" class="com.lockbur.bieti.agent.websocket.CommandHandlerSocket"/>
+    <bean id="webSocketHandler" class="com.lockbur.bieti.agent.websocket.AgentWebSocketHandler"/>
 
-    <bean id="webSocketClient" class="com.lockbur.bieti.agent.spring.WebSocketClientFactoryBean">
-        <property name="serverUrl" value="ws://127.0.0.1:8080/websocket"></property>
-        <property name="commandHandlerSocket" ref="commandHandlerSocket"></property>
+    <bean id="sockJsClient" class="com.lockbur.bieti.agent.spring.WebSocketClientFactoryBean">
+        <property name="serverUrl" value="${agent.sockjs.server}"></property>
+        <property name="webSocketHandler" ref="webSocketHandler"></property>
     </bean>
 </beans>

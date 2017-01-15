@@ -28,7 +28,9 @@
 
     <!-- WebSocket -->
     <websocket:handlers>
-        <websocket:mapping path="/websocket" handler="webSocketHandler" />
+        <websocket:mapping path="/sockjs/agent" handler="webSocketHandler"/>
+        <websocket:sockjs/>
+
     </websocket:handlers>
 
     <bean id="webSocketHandler" class="com.lockbur.bieti.server.websocket.WebSocketHandler"/>

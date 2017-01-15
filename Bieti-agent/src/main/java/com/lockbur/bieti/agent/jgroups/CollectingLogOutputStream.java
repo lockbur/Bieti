@@ -19,7 +19,7 @@ public class CollectingLogOutputStream extends LogOutputStream {
     @Override
     protected void processLine(String line, int level) {
 
-        logger.info("{}", line);
+        logger.info("line{}", line);
         lines.add(line);
     }
 

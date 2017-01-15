@@ -104,6 +104,13 @@
                 <version>${spring.version}</version>
             </dependency>
 
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-webmvc</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-websocket</artifactId>
@@ -112,7 +119,7 @@
 
             <dependency>
                 <groupId>org.springframework</groupId>
-                <artifactId>spring-webmvc</artifactId>
+                <artifactId>spring-messaging</artifactId>
                 <version>${spring.version}</version>
             </dependency>
 
@@ -179,9 +186,9 @@
 
 
             <!--<dependency>-->
-                <!--<groupId>org.jgroups</groupId>-->
-                <!--<artifactId>jgroups</artifactId>-->
-                <!--<version>3.2.8.Final</version>-->
+            <!--<groupId>org.jgroups</groupId>-->
+            <!--<artifactId>jgroups</artifactId>-->
+            <!--<version>3.2.8.Final</version>-->
             <!--</dependency>-->
 
             <!--Test-->

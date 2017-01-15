@@ -8,78 +8,162 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>JSP Page</title>
+    <title>WebSocket/SockJS Echo Sample (Adapted from Tomcat's echo sample)</title>
+    <style type="text/css">
+        #connect-container {
+            float: left;
+            width: 400px
+        }
+
+        #connect-container div {
+            padding: 5px;
+        }
+
+        #console-container {
+            float: left;
+            margin-left: 15px;
+            width: 400px;
+        }
+
+        #console {
+            border: 1px solid #CCCCCC;
+            border-right-color: #999999;
+            border-bottom-color: #999999;
+            height: 170px;
+            overflow-y: scroll;
+            padding: 5px;
+            width: 100%;
+        }
+
+        #console p {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+
     <script src="http://cdn.sockjs.org/sockjs-0.3.min.js"></script>
+
+    <script type="text/javascript">
+        var ws = null;
+        var url = null;
+        var transports = [];
+
+        function setConnected(connected) {
+            document.getElementById('connect').disabled = connected;
+            document.getElementById('disconnect').disabled = !connected;
+            document.getElementById('echo').disabled = !connected;
+        }
+
+        function connect() {
+            if (!url) {
+                alert('Select whether to use W3C WebSocket or SockJS');
+                return;
+            }
+
+            ws = (url.indexOf('sockjs') != -1) ?
+                    new SockJS(url, undefined, {protocols_whitelist: transports}) : new WebSocket(url);
+
+            ws.onopen = function () {
+                setConnected(true);
+                log('Info: connection opened.');
+            };
+            ws.onmessage = function (event) {
+                log('Received: ' + event.data);
+            };
+            ws.onclose = function (event) {
+                setConnected(false);
+                log('Info: connection closed.');
+                log(event);
+            };
+        }
+
+        function disconnect() {
+            if (ws != null) {
+                ws.close();
+                ws = null;
+            }
+            setConnected(false);
+        }
+
+        function echo() {
+            if (ws != null) {
+                var message = document.getElementById('message').value;
+                log('Sent: ' + message);
+                ws.send(message);
+            } else {
+                alert('connection not established, please connect.');
+            }
+        }
+
+        function updateUrl(urlPath) {
+            if (urlPath.indexOf('sockjs') != -1) {
+                url = urlPath;
+                document.getElementById('sockJsTransportSelect').style.visibility = 'visible';
+            }
+            else {
+                if (window.location.protocol == 'http:') {
+                    url = 'ws://' + window.location.host + urlPath;
+                } else {
+                    url = 'wss://' + window.location.host + urlPath;
+                }
+                document.getElementById('sockJsTransportSelect').style.visibility = 'hidden';
+            }
+        }
+
+        function updateTransport(transport) {
+            transports = (transport == 'all') ? [] : [transport];
+        }
+
+        function log(message) {
+            var console = document.getElementById('console');
+            var p = document.createElement('p');
+            p.style.wordWrap = 'break-word';
+            p.appendChild(document.createTextNode(message));
+            console.appendChild(p);
+            while (console.childNodes.length > 25) {
+                console.removeChild(console.firstChild);
+            }
+            console.scrollTop = console.scrollHeight;
+        }
+    </script>
 </head>
 <body>
+<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websockets
+    rely on Javascript being enabled. Please enable
+    Javascript and reload this page!</h2></noscript>
 <div>
-    <button id="connect" onclick="connect()">connect</button>
-    <button id="disconnect" onclick="disconnect()"/>
-    disconnect</button><br>
-    <input id="message" value="send message"/>
-    <button onclick="sendName()">发送消息</button>
-    <div id="response"></div>
+    <div id="connect-container">
+        <input id="radio1" type="radio" name="group1" onclick="updateUrl('/echo');">
+        <label for="radio1">W3C WebSocket</label>
+        <br>
+        <input id="radio2" type="radio" name="group1" onclick="updateUrl('/sockjs/agent');">
+        <label for="radio2">SockJS</label>
+        <div id="sockJsTransportSelect" style="visibility:hidden;">
+            <span>SockJS transport:</span>
+            <select onchange="updateTransport(this.value)">
+                <option value="all">all</option>
+                <option value="websocket">websocket</option>
+                <option value="xhr-polling">xhr-polling</option>
+                <option value="jsonp-polling">jsonp-polling</option>
+                <option value="xhr-streaming">xhr-streaming</option>
+                <option value="iframe-eventsource">iframe-eventsource</option>
+                <option value="iframe-htmlfile">iframe-htmlfile</option>
+            </select>
+        </div>
+        <div>
+            <button id="connect" onclick="connect();">Connect</button>
+            <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>
+        </div>
+        <div>
+            <textarea id="message" style="width: 350px">Here is a message!</textarea>
+        </div>
+        <div>
+            <button id="echo" onclick="echo();" disabled="disabled">Echo message</button>
+        </div>
+    </div>
+    <div id="console-container">
+        <div id="console"></div>
+    </div>
 </div>
 </body>
-<script type="text/javascript">
-    function setConnected(connected) {
-        document.getElementById('connect').disabled = connected;
-        document.getElementById('disconnect').disabled = !connected;
-        document.getElementById('response').innerHTML = '';
-    }
-
-    function connect() {
-        if ('WebSocket' in window) {
-            console.log('Websocket supported');
-            socket = new WebSocket('ws://localhost:8080/websocket');
-
-            console.log('Connection attempted');
-
-            socket.onopen = function () {
-                console.log('Connection open!');
-                setConnected(true);
-            }
-
-            socket.onclose = function () {
-                console.log('Disconnecting connection');
-            }
-
-            socket.onmessage = function (evt) {
-                var received_msg = evt.data;
-                console.log(received_msg);
-                console.log('message received!');
-                showMessage(received_msg);
-            }
-
-        } else {
-            console.log('Websocket not supported');
-        }
-    }
-
-    function disconnect() {
-        setConnected(false);
-        console.log("Disconnected");
-    }
-
-    function sendName() {
-        var message = document.getElementById('message').value;
-        socket.send(JSON.stringify({'message': message}));
-    }
-
-    function showMessage(message) {
-        var response = document.getElementById('response');
-        var p = document.createElement('p');
-        p.style.wordWrap = 'break-word';
-        p.appendChild(document.createTextNode(message));
-        response.appendChild(p);
-    }
-
-    /*
-     1. new WebSocket('ws://localhost:8080//websocket')尝试与服务器建立连接;
-     2. 握手成功并建立连接后，socket.onopen被调用
-     3. 当接收来自服务器的消息，socket.onmessage被调用
-     4. socket.send()用来发送消息至服务端
-     */
-</script>
 </html>

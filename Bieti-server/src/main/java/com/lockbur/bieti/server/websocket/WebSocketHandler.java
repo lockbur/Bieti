@@ -23,20 +23,12 @@ public class WebSocketHandler extends TextWebSocketHandler {
     private AgentManager agentManager;
 
 
-
     //@Autowired
     //private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-
         agentManager.addAgent(session);
-
-
-
-        logger.info("getHostString connect {}",session.getRemoteAddress().getHostString());
-        logger.info("getRemoteAddress connect {}", session.getRemoteAddress());
-        logger.info("websocket connect {}", session.getId());
     }
 
     @Override
@@ -47,8 +39,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        logger.info("websocket handleTextMessage {} message {}", session.getId(), message.getPayload());
-
         agentManager.broadcast(message.getPayload());
     }
 

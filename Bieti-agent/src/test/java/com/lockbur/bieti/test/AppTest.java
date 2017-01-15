@@ -1,13 +1,12 @@
 package com.lockbur.bieti.test;
 
 import com.lockbur.bieti.agent.jgroups.CollectingLogOutputStream;
-import org.apache.commons.exec.CommandLine;
-import org.apache.commons.exec.DefaultExecutor;
-import org.apache.commons.exec.PumpStreamHandler;
+import org.apache.commons.exec.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 
 /**
  * Created by wangkun23 on 2017/1/11.
@@ -19,39 +18,30 @@ public class AppTest {
     public static void main(String[] args) {
         try {
 
-            String command = "ping baidu.com";
-            String command2 = "java -version";
+            File dir = new File("/export/App/server1/bin");
 
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            DefaultExecutor executor = new DefaultExecutor();
+            executor.setWorkingDirectory(dir);
+            ExecuteWatchdog watchdog = new ExecuteWatchdog(60000);
+            executor.setWatchdog(watchdog);
 
-            ByteArrayOutputStream errorStream = new ByteArrayOutputStream();
+            //设置执行命令成功的退出值为1
+            executor.setExitValue(1);
 
+            DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
+
+            String command = "cmd.exe /C startup.bat";
             CommandLine commandline = CommandLine.parse(command);
 
-            CommandLine commandline2 = CommandLine.parse(command2);
+            PumpStreamHandler streamHandler = new PumpStreamHandler(new CollectingLogOutputStream());
 
-            DefaultExecutor exec = new DefaultExecutor();
+            executor.setStreamHandler(streamHandler);
+            executor.execute(commandline,resultHandler);
 
-            exec.setExitValues(null);
-             PumpStreamHandler streamHandler = new PumpStreamHandler();
-            //PumpStreamHandler streamHandler = new PumpStreamHandler(new CollectingLogOutputStream());
-
-            exec.setStreamHandler(streamHandler);
-
-            exec.execute(commandline);
-            exec.execute(commandline2);
-            String out = outputStream.toString("gbk");
-
-            String error = errorStream.toString("gbk");
-
-            logger.info("out{}.", out.toString());
-
-            logger.info("error{}.", error);
-
-
+            logger.info("commandline execute success .");
+            //resultHandler.waitFor();
         } catch (Exception e) {
-
-            logger.error("ping task failed.", e);
+            logger.error("commandline execute failed {}.", e);
         }
     }
 }

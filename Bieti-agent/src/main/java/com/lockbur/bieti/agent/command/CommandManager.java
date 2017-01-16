@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lockbur.bieti.agent.jgroups.CollectingLogOutputStream;
 import com.lockbur.bieti.common.AgentInstance;
 import com.lockbur.bieti.common.CommandMessage;
+import com.lockbur.bieti.common.enums.CommandType;
 import org.apache.commons.exec.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +32,23 @@ public class CommandManager {
                 try {
                     File dir = new File(instance.getPath() + "/bin");
 
+                    switch (message.getType()) {
+                        case DEPLOY:
+                            logger.info("START execute success .");
+                            break;
+                        case START:
+                            logger.info("START execute success .");
+                            break;
+
+                        case STOP:
+                            logger.info("STOP execute success .");
+                            break;
+                        case RESTART:
+                            logger.info("RESTART execute success .");
+                            break;
+                        default:
+                            logger.info("commandType not correct.");
+                    }
                     //http://blog.csdn.net/fd_mas/article/details/50147701
                     DefaultExecutor executor = new DefaultExecutor();
                     executor.setWorkingDirectory(dir);
@@ -60,7 +78,7 @@ public class CommandManager {
                 }
             }//for
         } catch (IOException e) {
-            logger.error("processCommand {}",e);
+            logger.error("processCommand {}", e);
         }
         logger.info("{},command {}", webSocketSession.getId(), webSocketMessage.getPayload());
     }

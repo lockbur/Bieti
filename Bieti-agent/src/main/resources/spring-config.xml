@@ -18,6 +18,8 @@
         </property>
     </bean>
 
+    <bean id="commandManager" class="com.lockbur.bieti.agent.command.CommandManager"/>
+
     <bean id="collectingLogOutputStream" class="com.lockbur.bieti.agent.jgroups.CollectingLogOutputStream"/>
 
     <bean id="webSocketHandler" class="com.lockbur.bieti.agent.websocket.AgentWebSocketHandler"/>

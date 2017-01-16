@@ -7,13 +7,13 @@ import java.util.Date;
  * 应用管理
  * Created by wangkun23 on 2017/1/11.
  */
-public class Application implements Serializable {
+public class App implements Serializable {
 
     private Integer id;
     private Integer projectId;
     private String name;
+    private String path;
     private String server;
-    private String command;
 
     private Date createdTime;//创建时间
     private Date modifiedTime;//最后更新时间
@@ -50,12 +50,12 @@ public class Application implements Serializable {
         this.server = server;
     }
 
-    public String getCommand() {
-        return command;
+    public String getPath() {
+        return path;
     }
 
-    public void setCommand(String command) {
-        this.command = command;
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public Date getCreatedTime() {

@@ -11,7 +11,7 @@ public class Instance implements Serializable {
 
     private Integer id;
     private String name;
-    private Integer appServerId;//所属应用的ID
+    private Integer appId;//所属应用的ID
 
     private String address;//ip地址
     private String hostname;//主机名
@@ -36,12 +36,12 @@ public class Instance implements Serializable {
         this.name = name;
     }
 
-    public Integer getAppServerId() {
-        return appServerId;
+    public Integer getAppId() {
+        return appId;
     }
 
-    public void setAppServerId(Integer appServerId) {
-        this.appServerId = appServerId;
+    public void setAppId(Integer appId) {
+        this.appId = appId;
     }
 
     public String getAddress() {

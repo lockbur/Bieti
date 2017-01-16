@@ -9,6 +9,7 @@
         (
           name,app_id,created_by,created_time,modified_time
         )
+        VALUES
         (
           #{name},#{appId},1,now(),now()
         )

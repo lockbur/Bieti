@@ -1,7 +1,7 @@
 package com.lockbur.bieti.server.controller;
 
-import com.lockbur.bieti.server.domain.Application;
-import com.lockbur.bieti.server.service.ApplicationService;
+import com.lockbur.bieti.server.domain.App;
+import com.lockbur.bieti.server.service.AppService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,27 +18,27 @@ import java.util.List;
 public class ApplicationController {
 
     @Resource
-    private ApplicationService applicationService;
+    private AppService applicationService;
 
 
     @RequestMapping("/list")
     public String list(Model model) {
 
-        List<Application> list = applicationService.findAll();
+        List<App> list = applicationService.findAll();
         model.addAttribute("list", list);
         return "app/list";
     }
 
     @RequestMapping("/edit/{id}")
     public String edit(@PathVariable("id") Integer id, Model model) {
-        Application app = applicationService.findById(id);
+        App app = applicationService.findById(id);
         model.addAttribute("app", app);
         return "app/edit";
     }
 
 
     @RequestMapping("/update")
-    public String update(Application app) {
+    public String update(App app) {
         applicationService.update(app);
         return "redirect:/app/list";
     }

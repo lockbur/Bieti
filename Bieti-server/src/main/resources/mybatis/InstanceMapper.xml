@@ -7,26 +7,30 @@
             keyProperty="id">
         INSERT INTO tb_instance
         (
-           name,app_server_id,address,hostname,path,created_by,created_time,modified_time
+           name,app_id,address,hostname,path,created_by,created_time,modified_time
         )
         VALUES
         (
-         #{name}, #{appServerId},#{address},#{hostname},#{path},1,now(),now()
+         #{name}, #{appId},#{address},#{hostname},#{path},1,now(),now()
         )
     </insert>
 
     <select id="findByAppServerId" resultType="com.lockbur.bieti.server.domain.Instance">
         SELECT
-        id,name,app_server_id,address,hostname,path,created_by,created_time,modified_time
+        id,name,
+        app_id AS appId,
+        address,hostname,path,created_by,created_time,modified_time
         FROM
         tb_instance
         WHERE
-        app_server_id=#{appServerId}
+        app_id=#{appId}
     </select>
 
     <select id="findById" resultType="com.lockbur.bieti.server.domain.Instance">
         SELECT
-        id,name,app_server_id,address,hostname,path,created_by,created_time,modified_time
+        id,name,
+        app_id AS appId,
+        address,hostname,path,created_by,created_time,modified_time
         FROM
         tb_instance
         WHERE

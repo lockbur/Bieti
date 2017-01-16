@@ -59,7 +59,9 @@
                             <div class="widget-header">
                                 <span class="widget-caption">我的上线任务</span>
                                 <div class="widget-buttons buttons-bordered">
-                                    <button class="btn btn-success btn-xs"><i class="fa fa-plus"></i>创建新任务</button>
+                                    <a href="/deployJob/add" class="btn btn-success btn-xs">
+                                        <i class="fa fa-plus"></i>创建新任务
+                                    </a>
                                 </div>
                                 <div class="widget-buttons buttons-bordered">
                                     <button class="btn btn-info btn-xs"><i class="fa fa-refresh"></i>刷新</button>

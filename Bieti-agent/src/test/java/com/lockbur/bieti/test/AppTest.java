@@ -18,7 +18,7 @@ public class AppTest {
     public static void main(String[] args) {
         try {
 
-            File dir = new File("/export/App/server1/bin");
+            File dir = new File("/export/App/test.zhongfl.com/server1/bin");
 
             DefaultExecutor executor = new DefaultExecutor();
             executor.setWorkingDirectory(dir);
@@ -30,17 +30,18 @@ public class AppTest {
 
             DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
 
-            String command = "cmd.exe /C startup.bat";
-            CommandLine commandline = CommandLine.parse(command);
+                String command = "cmd.exe /C shutdown.bat ; cmd.exe /C startup.bat";
+                CommandLine commandline = CommandLine.parse(command);
 
-            PumpStreamHandler streamHandler = new PumpStreamHandler(new CollectingLogOutputStream());
+                PumpStreamHandler streamHandler = new PumpStreamHandler(new CollectingLogOutputStream());
 
-            executor.setStreamHandler(streamHandler);
-            executor.execute(commandline,resultHandler);
+                executor.setStreamHandler(streamHandler);
+                executor.execute(commandline,resultHandler);
+                logger.info("commandline execute success .");
 
-            logger.info("commandline execute success .");
             //resultHandler.waitFor();
         } catch (Exception e) {
+            e.printStackTrace();
             logger.error("commandline execute failed {}.", e);
         }
     }

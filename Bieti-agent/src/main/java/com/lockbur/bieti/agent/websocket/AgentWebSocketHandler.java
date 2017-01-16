@@ -3,6 +3,7 @@ package com.lockbur.bieti.agent.websocket;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lockbur.bieti.agent.command.CommandManager;
 import com.lockbur.bieti.agent.jgroups.CollectingLogOutputStream;
+import com.lockbur.bieti.common.AgentInstance;
 import com.lockbur.bieti.common.CommandMessage;
 import org.apache.commons.exec.*;
 import org.slf4j.Logger;
@@ -42,34 +43,37 @@ public class AgentWebSocketHandler implements WebSocketHandler {
         //commandManager.processCommand(webSocketSession, webSocketMessage);
 
         //http://blog.csdn.net/fd_mas/article/details/50147701
-        try {
-            File dir = new File("/export/App/"+message.getInstance()+"/bin");
+        for(AgentInstance instance:message.getInstances()){
+            logger.info("getInstances {}", instance);
+            try {
+                File dir = new File(instance.getPath()+"/bin");
 
-            DefaultExecutor executor = new DefaultExecutor();
-            executor.setWorkingDirectory(dir);
-            ExecuteWatchdog watchdog = new ExecuteWatchdog(60000);
-            executor.setWatchdog(watchdog);
+                DefaultExecutor executor = new DefaultExecutor();
+                executor.setWorkingDirectory(dir);
+                ExecuteWatchdog watchdog = new ExecuteWatchdog(60000);
+                executor.setWatchdog(watchdog);
 
-            //设置执行命令成功的退出值为1
-            executor.setExitValue(1);
+                //设置执行命令成功的退出值为1
+                executor.setExitValue(1);
 
-            DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
+                DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
 
-            String command = "cmd.exe /C startup.bat";
-            CommandLine commandline = CommandLine.parse(command);
+                String command = "cmd.exe /C startup.bat";
+                CommandLine commandline = CommandLine.parse(command);
 
-            PumpStreamHandler streamHandler = new PumpStreamHandler(new CollectingLogOutputStream());
+                PumpStreamHandler streamHandler = new PumpStreamHandler(new CollectingLogOutputStream());
 
-            executor.setStreamHandler(streamHandler);
-            executor.execute(commandline, resultHandler);
+                executor.setStreamHandler(streamHandler);
+                executor.execute(commandline, resultHandler);
 
-            logger.info("commandline execute success .");
-            resultHandler.waitFor();
+                logger.info("commandline execute success .");
+                resultHandler.waitFor();
 
-            logger.info("commandli{}" ,resultHandler.getException());
-        } catch (Exception e) {
-            logger.error("commandline execute failed {}.", e);
-        }
+                logger.info("commandli{}" ,resultHandler.getException());
+            } catch (Exception e) {
+                logger.error("commandline execute failed {}.", e);
+            }
+        }//for
     }
 
     @Override

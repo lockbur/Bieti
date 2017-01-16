@@ -70,8 +70,8 @@
                                             </label>
                                         </td>
                                         <th>ID</th>
-                                        <th>实例名称</th>
                                         <th>IP地址</th>
+                                        <th>实例名称</th>
                                         <th>主机名称</th>
                                         <th>实例路径</th>
                                         <th>操作</th>
@@ -87,8 +87,8 @@
                                                 </label>
                                             </td>
                                             <td>${item.id}</td>
-                                            <td>${item.name}</td>
                                             <td>${item.address}</td>
+                                            <td>${item.name}</td>
                                             <td>${item.hostname}</td>
                                             <td>${item.path}</td>
                                             <td>

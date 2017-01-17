@@ -27,9 +27,37 @@ public class CommandController {
 
     @PostMapping("/deploy")
     @ResponseBody
-    public ResponseData list(Integer id, Model model) throws Exception {
+    public ResponseData deploy(Integer id, Model model) throws Exception {
         logger.info("id is {}", id);
         commandService.deploy(id);
         return ResponseData.success();
     }
+
+    @PostMapping("/start")
+    @ResponseBody
+    public ResponseData start(Integer id, Model model) throws Exception {
+        logger.info("id is {}", id);
+        commandService.start(id);
+        return ResponseData.success();
+    }
+
+
+    @PostMapping("/restart")
+    @ResponseBody
+    public ResponseData restart(Integer id, Model model) throws Exception {
+        logger.info("id is {}", id);
+        commandService.restart(id);
+        return ResponseData.success();
+    }
+
+
+    @PostMapping("/stop")
+    @ResponseBody
+    public ResponseData stop(Integer id, Model model) throws Exception {
+        logger.info("id is {}", id);
+        commandService.stop(id);
+        return ResponseData.success();
+    }
+
+
 }

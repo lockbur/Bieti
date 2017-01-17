@@ -28,16 +28,28 @@ public class AppTest {
             //设置执行命令成功的退出值为1
             executor.setExitValue(1);
 
-            DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
+            PumpStreamHandler streamHandler = new PumpStreamHandler(new CollectingLogOutputStream());
+            executor.setStreamHandler(streamHandler);
 
-                String command = "cmd.exe /C shutdown.bat ; cmd.exe /C startup.bat";
-                CommandLine commandline = CommandLine.parse(command);
+            CommandLine commandline = null;
 
-                PumpStreamHandler streamHandler = new PumpStreamHandler(new CollectingLogOutputStream());
+            //stop
+            String command = "cmd.exe /C shutdown.bat";
+            commandline = CommandLine.parse(command);
 
-                executor.setStreamHandler(streamHandler);
-                executor.execute(commandline,resultHandler);
-                logger.info("commandline execute success .");
+            DefaultExecuteResultHandler resultHandler1 = new DefaultExecuteResultHandler();
+
+            executor.execute(commandline, resultHandler1);
+            logger.info("commandline stop complete .");
+            resultHandler1.waitFor();
+
+            //start
+            command = "cmd.exe /C startup.bat";
+            commandline = CommandLine.parse(command);
+            DefaultExecuteResultHandler resultHandler2= new DefaultExecuteResultHandler();
+            executor.execute(commandline, resultHandler2);
+            logger.info("commandline start complete .");
+            resultHandler2.waitFor();
 
             //resultHandler.waitFor();
         } catch (Exception e) {

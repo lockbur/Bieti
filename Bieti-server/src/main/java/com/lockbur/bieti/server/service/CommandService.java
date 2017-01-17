@@ -7,13 +7,13 @@ public interface CommandService {
 
     public void deploy(Integer projectId) throws Exception;
 
-    public void start();
+    public void start(Integer id) throws Exception;
 
-    public void restart();
+    public void restart(Integer id) throws Exception;
 
-    public void stop();
+    public void stop(Integer id) throws Exception;
 
-    public void unDeploy();
+    public void unDeploy(Integer id) throws Exception;
 
 
 }

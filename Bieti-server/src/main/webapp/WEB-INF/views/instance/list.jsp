@@ -140,6 +140,39 @@
             }, "json");
         });
 
+        $("[data-provider='start']").click(function () {
+            var _id = $(this).data("id");
+            $.post("/command/start", {"id": _id}, function (result) {
+                bootbox.confirm("部署提交成功", function (bootReult) {
+                    if (bootReult) {
+                        //
+                    }
+                });//bootbox
+            }, "json");
+        });
+
+        $("[data-provider='restart']").click(function () {
+            var _id = $(this).data("id");
+            $.post("/command/restart", {"id": _id}, function (result) {
+                bootbox.confirm("部署提交成功", function (bootReult) {
+                    if (bootReult) {
+                        //
+                    }
+                });//bootbox
+            }, "json");
+        });
+
+        $("[data-provider='stop']").click(function () {
+            var _id = $(this).data("id");
+            $.post("/command/stop", {"id": _id}, function (result) {
+                bootbox.confirm("部署提交成功", function (bootReult) {
+                    if (bootReult) {
+                        //
+                    }
+                });//bootbox
+            }, "json");
+        });
+
     });//JQ END
 </script>
 </body>

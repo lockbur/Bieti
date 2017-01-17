@@ -1,5 +1,6 @@
 package com.lockbur.bieti.server.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lockbur.bieti.common.AgentInstance;
 import com.lockbur.bieti.common.CommandMessage;
@@ -26,10 +27,6 @@ public class CommandServiceImpl implements CommandService {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    //@Resource
-    //private JChannel channel;
-    //@Autowired
-    //private WebSocketHandler webSocketHandler;
     @Autowired
     private AgentManager agentManager;
 
@@ -41,7 +38,33 @@ public class CommandServiceImpl implements CommandService {
 
     public void deploy(Integer instanceId) throws Exception {
         logger.info("app deploy");
+        process(instanceId, CommandType.DEPLOY);
+    }
 
+    public void start(Integer instanceId) throws Exception {
+        process(instanceId, CommandType.START);
+    }
+
+    public void restart(Integer instanceId) throws Exception {
+        process(instanceId, CommandType.RESTART);
+    }
+
+    public void stop(Integer instanceId) throws Exception {
+        process(instanceId, CommandType.STOP);
+    }
+
+    public void unDeploy(Integer instanceId) {
+
+    }
+
+    /**
+     * 抽象出理函数
+     *
+     * @param instanceId
+     * @param type
+     * @throws Exception
+     */
+    private void process(Integer instanceId, CommandType type) throws Exception {
         Instance instance = instanceService.findById(instanceId);
 
         App app = applicationService.findById(instance.getAppId());
@@ -53,9 +76,10 @@ public class CommandServiceImpl implements CommandService {
             command.setAppPath(app.getPath());
             command.setAppVersion("0");
             command.setJobId(1);
-            command.setType(CommandType.DEPLOY);
 
-            AgentInstance agentInstance=new AgentInstance();
+            command.setType(type);
+
+            AgentInstance agentInstance = new AgentInstance();
 
             agentInstance.setId(instance.getId());
             agentInstance.setName(instance.getName());
@@ -71,21 +95,6 @@ public class CommandServiceImpl implements CommandService {
         } else {
             logger.error("App not exist id {}", instanceId);
         }
-    }
-
-    public void start() {
-
-    }
-
-    public void restart() {
-
-    }
-
-    public void stop() {
-
-    }
-
-    public void unDeploy() {
 
     }
 

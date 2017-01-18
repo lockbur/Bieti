@@ -18,7 +18,7 @@ public class Bootstrap {
 
         AbstractApplicationContext cxt = new FileSystemXmlApplicationContext("classpath:spring-config.xml");
 
-        SockJsClient webSocketClient = (SockJsClient) cxt.getBean("sockJsClient");
+        //SockJsClient webSocketClient = (SockJsClient) cxt.getBean("sockJsClient");
 
         final Thread monitor = new StopMonitor(9527);
         monitor.start();
